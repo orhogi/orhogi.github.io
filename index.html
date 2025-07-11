@@ -1,154 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>papa COTE</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0d0d0d;
-      color: #fff;
-      overflow-x: hidden;
-      transition: 0.3s;
-      position: relative;
-    }
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>papa COTE</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0d0d0d;
+    color: #fff;
+    overflow-x: hidden;
+    transition: 0.3s;
+    position: relative;
+  }
+  .image-container {
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 30px;
+    border-radius: 15px;
+    background-color: rgba(25, 25, 25, 0.85);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    text-align: center;
+    z-index: 2;
+    position: relative;
+  }
+  h2 {
+    font-size: 3em;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    animation: glow 2s infinite alternate;
+  }
+  @keyframes glow {
+    from { text-shadow: 0 0 5px #00ffff; }
+    to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
+  }
+  .image-wrapper {
+    display: inline-block;
+    padding: 10px;
+    border: 4px solid transparent;
+    border-image: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff) 1;
+    border-radius: 15px;
+    animation: spinBorder 6s linear infinite;
+  }
+  @keyframes spinBorder {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(1turn); }
+  }
+  .displayed-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+  .displayed-image:hover {
+    transform: scale(1.05);
+  }
+  .site-info {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #ccc;
+  }
+  .music-player {
+    margin-top: 20px;
+  }
+  audio {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+    outline: none;
+  }
+  .particles {
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(white 1px, transparent 1px);
+    background-size: 25px 25px;
+    opacity: 0.04;
+    animation: moveStars 30s linear infinite;
+  }
+  @keyframes moveStars {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
+  }
+  @media (max-width: 600px) {
     .image-container {
-      max-width: 800px;
-      margin: 100px auto;
-      padding: 30px;
-      border-radius: 15px;
-      background-color: rgba(25, 25, 25, 0.85);
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-      text-align: center;
-      z-index: 2;
-      position: relative;
+      margin: 40px 10px;
+      padding: 20px;
     }
-
     h2 {
-      font-size: 3em;
-      color: #00ffff;
-      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-      animation: glow 2s infinite alternate;
+      font-size: 2em;
     }
-
-    @keyframes glow {
-      from { text-shadow: 0 0 5px #00ffff; }
-      to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
-    }
-
-    .instagram-icon {
-      margin-top: 15px;
-    }
-
-    .instagram-icon a img {
-      width: 40px;
-      height: 40px;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    .image-wrapper {
-      display: inline-block;
-      padding: 10px;
-      border: 4px solid transparent;
-      border-image: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff) 1;
-      border-radius: 15px;
-      animation: spinBorder 6s linear infinite;
-    }
-
-    @keyframes spinBorder {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(1turn); }
-    }
-
-    .displayed-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-      transition: transform 0.3s ease;
-    }
-
-    .displayed-image:hover {
-      transform: scale(1.05);
-    }
-
     .site-info {
-      margin-top: 20px;
-      font-size: 1em;
-      color: #ccc;
+      font-size: 0.9em;
     }
-
-    .music-player {
-      margin-top: 20px;
-    }
-
-    audio {
-      width: 100%;
-      max-width: 300px;
-      border-radius: 10px;
-      outline: none;
-    }
-
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(white 1px, transparent 1px);
-      background-size: 25px 25px;
-      opacity: 0.04;
-      animation: moveStars 30s linear infinite;
-    }
-
-    @keyframes moveStars {
-      0% { background-position: 0 0; }
-      100% { background-position: 100px 100px; }
-    }
-
-    @media (max-width: 600px) {
-      .image-container {
-        margin: 40px 10px;
-        padding: 20px;
-      }
-
-      h2 {
-        font-size: 2em;
-      }
-
-      .site-info {
-        font-size: 0.9em;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <div class="particles"></div>
 
   <div class="image-container">
     <h2>papa COTE</h2>
-
-    <!-- ✅ Static Instagram Icon -->
-    <div class="instagram-icon">
-      <a href="https://www.instagram.com/co._" target="_blank" title="Follow me on Instagram">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Icon" />
-      </a>
-    </div>
-
-    <!-- ✅ Main Profile Image with Border Animation -->
     <div class="image-wrapper">
       <img src="https://i.scdn.co/image/ab67616d0000b273f627c92766c2639750aa1a94" alt="Displayed Image" class="displayed-image" />
     </div>
-
     <div class="site-info">
       <p>made by not god ✦</p>
     </div>
-
     <div class="music-player">
       <audio id="bg-music" controls muted playsinline>
         <source src="https://files.catbox.moe/1pz4ai.mp3" type="audio/mpeg" />
@@ -159,15 +119,20 @@
 
   <script>
     const audio = document.getElementById('bg-music');
+
+    // Simple mobile detection
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (!isMobile) {
+      // Desktop: autoplay muted (allowed)
       audio.autoplay = true;
       audio.muted = true;
       audio.play().catch(() => {});
     } else {
+      // Mobile: do NOT autoplay, no muted attribute
       audio.autoplay = false;
       audio.muted = false;
+      // User must tap play manually
     }
   </script>
 </body>
