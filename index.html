@@ -1,139 +1,478 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>papa COTE</title>
-<style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #0d0d0d;
-    color: #fff;
-    overflow-x: hidden;
-    transition: 0.3s;
-    position: relative;
-  }
-  .image-container {
-    max-width: 800px;
-    margin: 100px auto;
-    padding: 30px;
-    border-radius: 15px;
-    background-color: rgba(25, 25, 25, 0.85);
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-    text-align: center;
-    z-index: 2;
-    position: relative;
-  }
-  h2 {
-    font-size: 3em;
-    color: #00ffff;
-    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-    animation: glow 2s infinite alternate;
-  }
-  @keyframes glow {
-    from { text-shadow: 0 0 5px #00ffff; }
-    to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
-  }
-  .image-wrapper {
-    display: inline-block;
-    padding: 10px;
-    border: 4px solid transparent;
-    border-image: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff) 1;
-    border-radius: 15px;
-    animation: spinBorder 6s linear infinite;
-  }
-  @keyframes spinBorder {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(1turn); }
-  }
-  .displayed-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-  }
-  .displayed-image:hover {
-    transform: scale(1.05);
-  }
-  .site-info {
-    margin-top: 20px;
-    font-size: 1em;
-    color: #ccc;
-  }
-  .music-player {
-    margin-top: 20px;
-  }
-  audio {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 10px;
-    outline: none;
-  }
-  .particles {
-    position: fixed;
-    top: 0; left: 0;
-    z-index: 0;
-    width: 100%; height: 100%;
-    background: radial-gradient(white 1px, transparent 1px);
-    background-size: 25px 25px;
-    opacity: 0.04;
-    animation: moveStars 30s linear infinite;
-  }
-  @keyframes moveStars {
-    0% { background-position: 0 0; }
-    100% { background-position: 100px 100px; }
-  }
-  @media (max-width: 600px) {
-    .image-container {
-      margin: 40px 10px;
-      padding: 20px;
-    }
-    h2 {
-      font-size: 2em;
-    }
-    .site-info {
-      font-size: 0.9em;
-    }
-  }
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>papa COTE - Fully Featured</title>
+    <style>
+        /* CSS Variables for easier theme management */
+        :root {
+            --bg-color: #0d0d0d;
+            --container-bg: rgba(25, 25, 25, 0.85);
+            --primary-text: #fff;
+            --secondary-text: #ccc;
+            --accent-color: #00ffff; /* Default: Cyan */
+            --accent-glow: rgba(0, 255, 255, 0.3);
+            --gradient-start: #00ffff;
+            --gradient-end: #ff00ff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Canvas for interactive particles - sits behind everything */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 15px;
+            box-sizing: border-box;
+            /* Added for fade-in animation */
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-figure {
+            max-width: 800px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: var(--container-bg);
+            box-shadow: 0 0 30px var(--accent-glow);
+            text-align: center;
+            transition: box-shadow 0.5s ease; /* Smooth transition for theme changes */
+        }
+
+        .content-figure h2 {
+            font-size: 3em;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+            animation: glow 2s infinite alternate;
+            margin: 0 0 25px 0;
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 5px var(--accent-color); }
+            to { text-shadow: 0 0 20px var(--accent-color), 0 0 40px var(--accent-color); }
+        }
+
+        /* Image Carousel Styling */
+        .carousel-container {
+            position: relative;
+            display: inline-block;
+            padding: 10px;
+            border: 4px solid transparent;
+            border-image: linear-gradient(45deg, var(--gradient-start), var(--gradient-end), var(--gradient-start)) 1;
+            border-radius: 15px;
+            animation: spinBorder 8s linear infinite, float 4s ease-in-out infinite;
+            transition: border-image 0.5s ease;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes spinBorder {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(1turn); }
+        }
+        
+        .image-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            width: 400px; /* Use fixed width for consistency */
+            height: 400px; /* Set a fixed height */
+            background-color: #1a1a1a; /* Add a background color for loading */
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+        
+        .carousel-slide {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+        }
+
+        .displayed-image {
+            display: block;
+            width: 100%; 
+            height: 100%;
+            object-fit: cover; /* Ensure image covers the area without distortion */
+            transition: transform 0.3s ease;
+        }
+
+        .displayed-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Carousel Navigation Buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .carousel-container:hover .carousel-btn {
+            opacity: 1;
+        }
+
+        .carousel-btn.prev { left: 20px; }
+        .carousel-btn.next { right: 20px; }
+
+        .content-figure figcaption {
+            margin-top: 20px;
+            font-size: 1em;
+            color: var(--secondary-text);
+        }
+
+        /* Controls Section (Music, Theme) */
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            display: flex;
+            gap: 10px;
+        }
+        .theme-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #fff;
+            transition: transform 0.2s;
+        }
+        .theme-dot:hover {
+            transform: scale(1.2);
+        }
+
+        /* Audio Player and Visualizer */
+        .music-player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            outline: none;
+        }
+        
+        #visualizer-canvas {
+            width: 100%;
+            max-width: 300px;
+            height: 60px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .content-figure { padding: 20px; }
+            .content-figure h2 { font-size: 2em; }
+            .content-figure figcaption { font-size: 0.9em; }
+            .image-wrapper { width: 300px; height: 300px; } /* Adjust size for smaller screens */
+        }
+    </style>
 </head>
 <body>
-  <div class="particles"></div>
+    <!-- Canvas for interactive particles -->
+    <canvas id="particle-canvas"></canvas>
 
-  <div class="image-container">
-    <h2>papa COTE</h2>
-    <div class="image-wrapper">
-      <img src="https://i.scdn.co/image/ab67616d0000b273f627c92766c2639750aa1a94" alt="Displayed Image" class="displayed-image" />
-    </div>
-    <div class="site-info">
-      <p>made by not god ✦</p>
-    </div>
-    <div class="music-player">
-      <audio id="bg-music" controls muted playsinline>
-        <source src="https://files.catbox.moe/1pz4ai.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-  </div>
+    <main class="main-content">
+        <figure class="content-figure">
+            <h2>papa COTE</h2>
 
-  <script>
-    const audio = document.getElementById('bg-music');
+            <!-- Image Carousel -->
+            <div class="carousel-container">
+                <div class="image-wrapper">
+                    <div class="carousel-track">
+                        <!-- Slide 1 -->
+                        <div class="carousel-slide">
+                            <img src="https://i.scdn.co/image/ab67616d0000b273f627c92766c2639750aa1a94" alt="Album Art 1" class="displayed-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d0d0d/ccc?text=Image+1';">
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="carousel-slide">
+                            <img src="https://static.standard.co.uk/2025/05/12/6/21/The-Bonnie-Blue-Story-6bvku22m.jpeg?trim=302,0,1448,0&quality=75&auto=webp&width=1000" alt="Bonnie Blue Butler Portrait" class="displayed-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d0d0d/ccc?text=Image+Not+Found';">
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="carousel-slide">
+                             <img src="https://akns-images.eonline.com/eol_images/Entire_Site/2025013/rs_1200x1200-250113170057-bonnie-blue-thumb.jpg?fit=around%7C1200:1200&output-quality=90&crop=1200:1200;center,top" alt="Bonnie Blue Butler in riding habit" class="displayed-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d0d0d/ccc?text=Image+Not+Found';">
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev" aria-label="Previous Image">&lt;</button>
+                <button class="carousel-btn next" aria-label="Next Image">&gt;</button>
+            </div>
 
-    // Simple mobile detection
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            <figcaption>made by not god ✦</figcaption>
 
-    if (!isMobile) {
-      // Desktop: autoplay muted (allowed)
-      audio.autoplay = true;
-      audio.muted = true;
-      audio.play().catch(() => {});
-    } else {
-      // Mobile: do NOT autoplay, no muted attribute
-      audio.autoplay = false;
-      audio.muted = false;
-      // User must tap play manually
-    }
-  </script>
+            <!-- Controls (Music Player, Theme Switcher) -->
+            <div class="controls">
+                <div class="music-player">
+                    <audio id="bg-music" controls playsinline crossOrigin="anonymous">
+                        <source src="https://files.catbox.moe/1pz4ai.mp3" type="audio/mpeg" />
+                        Your browser does not support the audio element.
+                    </audio>
+                    <canvas id="visualizer-canvas"></canvas>
+                </div>
+                
+                <div class="action-buttons">
+                    <div class="theme-switcher" id="theme-switcher">
+                        <!-- Theme dots will be generated by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </figure>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- ELEMENT SELECTORS ---
+            const root = document.documentElement;
+            const audio = document.getElementById('bg-music');
+            
+            // --- INTERACTIVE PARTICLES ---
+            const particleCanvas = document.getElementById('particle-canvas');
+            const pCtx = particleCanvas.getContext('2d');
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
+            let particlesArray = [];
+            const mouse = { x: null, y: null, radius: 100 };
+
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+            window.addEventListener('resize', () => {
+                particleCanvas.width = window.innerWidth;
+                particleCanvas.height = window.innerHeight;
+                initParticles(); // Re-initialize particles on resize for better distribution
+            });
+            window.addEventListener('mouseout', () => {
+                mouse.x = undefined;
+                mouse.y = undefined;
+            });
+
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY;
+                    this.size = size; this.color = color;
+                }
+                draw() {
+                    pCtx.beginPath();
+                    pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    pCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                    pCtx.fill();
+                }
+                update() {
+                    if (this.x > particleCanvas.width || this.x < 0) this.directionX = -this.directionX;
+                    if (this.y > particleCanvas.height || this.y < 0) this.directionY = -this.directionY;
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < mouse.radius + this.size) {
+                        if (mouse.x < this.x && this.x < particleCanvas.width - this.size * 10) this.x += 5;
+                        if (mouse.x > this.x && this.x > this.size * 10) this.x -= 5;
+                        if (mouse.y < this.y && this.y < particleCanvas.height - this.size * 10) this.y += 5;
+                        if (mouse.y > this.y && this.y > this.size * 10) this.y -= 5;
+                    }
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    this.draw();
+                }
+            }
+
+            function initParticles() {
+                particlesArray = [];
+                let numberOfParticles = (particleCanvas.height * particleCanvas.width) / 9000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 2) + 1;
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * .4) - .2;
+                    let directionY = (Math.random() * .4) - .2;
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size));
+                }
+            }
+
+            function animateParticles() {
+                requestAnimationFrame(animateParticles);
+                pCtx.clearRect(0, 0, innerWidth, innerHeight);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+            }
+            initParticles();
+            animateParticles();
+
+            // --- THEME SWITCHER ---
+            const themeSwitcher = document.getElementById('theme-switcher');
+            const themes = {
+                cyan: { accent: '#00ffff', glow: 'rgba(0, 255, 255, 0.3)', gradStart: '#00ffff', gradEnd: '#ff00ff' },
+                magenta: { accent: '#ff00ff', glow: 'rgba(255, 0, 255, 0.3)', gradStart: '#ff00ff', gradEnd: '#00ffff' },
+                green: { accent: '#00ff00', glow: 'rgba(0, 255, 0, 0.3)', gradStart: '#00ff00', gradEnd: '#ffff00' },
+                orange: { accent: '#ff8c00', glow: 'rgba(255, 140, 0, 0.3)', gradStart: '#ff8c00', gradEnd: '#ff0080' }
+            };
+
+            for (const themeName in themes) {
+                const dot = document.createElement('div');
+                dot.classList.add('theme-dot');
+                dot.style.backgroundColor = themes[themeName].accent;
+                dot.addEventListener('click', () => {
+                    root.style.setProperty('--accent-color', themes[themeName].accent);
+                    root.style.setProperty('--accent-glow', themes[themeName].glow);
+                    root.style.setProperty('--gradient-start', themes[themeName].gradStart);
+                    root.style.setProperty('--gradient-end', themes[themeName].gradEnd);
+                });
+                themeSwitcher.appendChild(dot);
+            }
+
+            // --- IMAGE CAROUSEL ---
+            const imageWrapper = document.querySelector('.image-wrapper');
+            const track = document.querySelector('.carousel-track');
+            const slides = Array.from(track.children);
+            const nextButton = document.querySelector('.carousel-btn.next');
+            const prevButton = document.querySelector('.carousel-btn.prev');
+            let slideWidth = imageWrapper.getBoundingClientRect().width;
+            let currentIndex = 0;
+
+            const moveToSlide = (targetIndex) => {
+                slideWidth = imageWrapper.getBoundingClientRect().width;
+                if (isNaN(slideWidth) || slideWidth === 0) { // Failsafe
+                    slideWidth = 400; 
+                }
+                track.style.transform = 'translateX(-' + slideWidth * targetIndex + 'px)';
+                currentIndex = targetIndex;
+            }
+
+            window.addEventListener('resize', () => moveToSlide(currentIndex));
+
+            nextButton.addEventListener('click', e => {
+                const nextIndex = (currentIndex + 1) % slides.length;
+                moveToSlide(nextIndex);
+            });
+
+            prevButton.addEventListener('click', e => {
+                const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+                moveToSlide(prevIndex);
+            });
+            
+            // --- AUDIO AUTOPLAY & VISUALIZER ---
+            let audioContext, analyser, source, dataArray;
+            const visualizerCanvas = document.getElementById('visualizer-canvas');
+            const vCtx = visualizerCanvas.getContext('2d');
+            visualizerCanvas.width = 300;
+            visualizerCanvas.height = 60;
+
+            function setupAudioContext() {
+                if (audioContext) return; // Initialize only once
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                source = audioContext.createMediaElementSource(audio);
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+                analyser.fftSize = 128;
+                const bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+            }
+            
+            function drawVisualizer() {
+                requestAnimationFrame(drawVisualizer);
+                if (!analyser) return; // Don't draw if analyser isn't ready
+                analyser.getByteFrequencyData(dataArray);
+
+                vCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
+                
+                const barWidth = (visualizerCanvas.width / dataArray.length) * 1.5;
+                let barHeight;
+                let x = 0;
+
+                const accentColor = getComputedStyle(root).getPropertyValue('--accent-color').trim();
+
+                for (let i = 0; i < dataArray.length; i++) {
+                    barHeight = dataArray[i] / 2.5;
+                    
+                    const gradient = vCtx.createLinearGradient(0, visualizerCanvas.height, 0, visualizerCanvas.height - barHeight);
+                    gradient.addColorStop(0, accentColor);
+                    gradient.addColorStop(1, '#ffffff');
+
+                    vCtx.fillStyle = gradient;
+                    vCtx.fillRect(x, visualizerCanvas.height - barHeight, barWidth, barHeight);
+                    
+                    x += barWidth + 2;
+                }
+            }
+
+            // Autoplay Logic
+            audio.muted = true;
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Autoplay started
+                    setupAudioContext();
+                    drawVisualizer();
+                }).catch(error => {
+                    console.log('Autoplay prevented. User must interact first.');
+                    // If autoplay fails, setup context on first play event
+                    audio.muted = false;
+                    audio.addEventListener('play', () => {
+                        setupAudioContext();
+                        drawVisualizer();
+                    }, { once: true });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
