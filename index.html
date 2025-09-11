@@ -77,8 +77,8 @@
             to { text-shadow: 0 0 20px var(--accent-color), 0 0 40px var(--accent-color); }
         }
 
-        /* Image Carousel Styling */
-        .carousel-container {
+        /* Single Image Styling (replaces carousel) */
+        .single-image-container {
             position: relative;
             display: inline-block;
             padding: 10px;
@@ -87,6 +87,8 @@
             border-radius: 15px;
             animation: spinBorder 8s linear infinite, float 4s ease-in-out infinite;
             transition: border-image 0.5s ease;
+            max-width: 400px; /* Limit size */
+            margin-bottom: 20px; /* Space below the image */
         }
         
         @keyframes float {
@@ -99,62 +101,18 @@
             to { transform: rotate(1turn); }
         }
         
-        .image-wrapper {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            width: 400px; /* Use fixed width for consistency */
-            height: 400px; /* Set a fixed height */
-            background-color: #1a1a1a; /* Add a background color for loading */
-        }
-
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%;
-        }
-        
-        .carousel-slide {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            flex-shrink: 0;
-        }
-
-        .displayed-image {
+        .displayed-image-single {
             display: block;
             width: 100%; 
-            height: 100%;
-            object-fit: cover; /* Ensure image covers the area without distortion */
+            height: auto; /* Allow height to adjust naturally */
+            border-radius: 10px;
+            object-fit: contain; /* Ensure image fits without cropping */
             transition: transform 0.3s ease;
         }
 
-        .displayed-image:hover {
+        .displayed-image-single:hover {
             transform: scale(1.05);
         }
-
-        /* Carousel Navigation Buttons */
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 50%;
-            z-index: 10;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .carousel-container:hover .carousel-btn {
-            opacity: 1;
-        }
-
-        .carousel-btn.prev { left: 20px; }
-        .carousel-btn.next { right: 20px; }
 
         .content-figure figcaption {
             margin-top: 20px;
@@ -220,7 +178,7 @@
             .content-figure { padding: 20px; }
             .content-figure h2 { font-size: 2em; }
             .content-figure figcaption { font-size: 0.9em; }
-            .image-wrapper { width: 300px; height: 300px; } /* Adjust size for smaller screens */
+            .single-image-container { max-width: 300px; } /* Adjust size for smaller screens */
         }
     </style>
 </head>
@@ -231,25 +189,11 @@
         <figure class="content-figure">
             <h2>papa COTE</h2>
 
-            <div class="carousel-container">
-                <div class="image-wrapper">
-                    <div class="carousel-track">
-                        <div class="carousel-slide">
-                            <img src="https://i.scdn.co/image/ab67616d0000b273f627c92766c2639750aa1a94" alt="Album Art 1" class="displayed-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d0d0d/ccc?text=Image+1';">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="https://static.standard.co.uk/2025/05/12/6/21/The-Bonnie-Blue-Story-6bvku22m.jpeg?trim=302,0,1448,0&quality=75&auto=webp&width=1000" alt="Bonnie Blue Butler Portrait" class="displayed-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d0d0d/ccc?text=Image+Not+Found';">
-                        </div>
-                        <div class="carousel-slide">
-                             <img src="https://akns-images.eonline.com/eol_images/Entire_Site/2025013/rs_1200x1200-250113170057-bonnie-blue-thumb.jpg?fit=around%7C1200:1200&output-quality=90&crop=1200:1200;center,top" alt="Bonnie Blue Butler in riding habit" class="displayed-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d0d0d/ccc?text=Image+Not+Found';">
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-btn prev" aria-label="Previous Image">&lt;</button>
-                <button class="carousel-btn next" aria-label="Next Image">&gt;</button>
+            <div class="single-image-container">
+                <img src="https://files.catbox.moe/gg4zc0.jpg" alt="Custom Image" class="displayed-image-single" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d0d0d/ccc?text=Image+Not+Found';">
             </div>
 
-            <figcaption>FATASS nigga</figcaption>
+            <figcaption>FATahh nigga</figcaption>
 
             <div class="controls">
                 <div class="music-player">
@@ -371,35 +315,8 @@
                 themeSwitcher.appendChild(dot);
             }
 
-            // --- IMAGE CAROUSEL ---
-            const imageWrapper = document.querySelector('.image-wrapper');
-            const track = document.querySelector('.carousel-track');
-            const slides = Array.from(track.children);
-            const nextButton = document.querySelector('.carousel-btn.next');
-            const prevButton = document.querySelector('.carousel-btn.prev');
-            let slideWidth = imageWrapper.getBoundingClientRect().width;
-            let currentIndex = 0;
-
-            const moveToSlide = (targetIndex) => {
-                slideWidth = imageWrapper.getBoundingClientRect().width;
-                if (isNaN(slideWidth) || slideWidth === 0) { // Failsafe
-                    slideWidth = 400; 
-                }
-                track.style.transform = 'translateX(-' + slideWidth * targetIndex + 'px)';
-                currentIndex = targetIndex;
-            }
-
-            window.addEventListener('resize', () => moveToSlide(currentIndex));
-
-            nextButton.addEventListener('click', e => {
-                const nextIndex = (currentIndex + 1) % slides.length;
-                moveToSlide(nextIndex);
-            });
-
-            prevButton.addEventListener('click', e => {
-                const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
-                moveToSlide(prevIndex);
-            });
+            // --- IMAGE CAROUSEL LOGIC REMOVED ---
+            // The carousel logic has been removed as it's no longer needed for a single image.
             
             // --- AUDIO AUTOPLAY & VISUALIZER ---
             let audioContext, analyser, source, dataArray;
