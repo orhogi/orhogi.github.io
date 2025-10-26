@@ -1,396 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>papa COTE - Fully Featured</title>
-    <style>
-        /* CSS Variables for easier theme management */
-        :root {
-            --bg-color: #0d0d0d;
-            --container-bg: rgba(25, 25, 25, 0.85);
-            --primary-text: #fff;
-            --secondary-text: #ccc;
-            --accent-color: #00ffff; /* Default: Cyan */
-            --accent-glow: rgba(0, 255, 255, 0.3);
-            --gradient-start: #00ffff;
-            --gradient-end: #ff00ff;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--primary-text);
-            overflow-x: hidden;
-            cursor: default;
-        }
-
-        /* Canvas for interactive particles - sits behind everything */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .main-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 40px 15px;
-            box-sizing: border-box;
-            /* Added for fade-in animation */
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .content-figure {
-            max-width: 800px;
-            width: 100%;
-            padding: 30px;
-            border-radius: 15px;
-            background-color: var(--container-bg);
-            box-shadow: 0 0 30px var(--accent-glow);
-            text-align: center;
-            transition: box-shadow 0.5s ease; /* Smooth transition for theme changes */
-        }
-
-        .content-figure h2 {
-            font-size: 3em;
-            color: var(--accent-color);
-            text-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
-            animation: glow 2s infinite alternate;
-            margin: 0 0 25px 0;
-            transition: color 0.5s ease, text-shadow 0.5s ease;
-        }
-
-        @keyframes glow {
-            from { text-shadow: 0 0 5px var(--accent-color); }
-            to { text-shadow: 0 0 20px var(--accent-color), 0 0 40px var(--accent-color); }
-        }
-
-        /* Single Image Styling (replaces carousel) */
-        .single-image-container {
-            position: relative;
-            display: inline-block;
-            padding: 10px;
-            border: 4px solid transparent;
-            border-image: linear-gradient(45deg, var(--gradient-start), var(--gradient-end), var(--gradient-start)) 1;
-            border-radius: 15px;
-            animation: spinBorder 8s linear infinite, float 4s ease-in-out infinite;
-            transition: border-image 0.5s ease;
-            max-width: 400px; /* Limit size */
-            margin-bottom: 20px; /* Space below the image */
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes spinBorder {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(1turn); }
-        }
-        
-        .displayed-image-single {
-            display: block;
-            width: 100%; 
-            height: auto; /* Allow height to adjust naturally */
-            border-radius: 10px;
-            object-fit: contain; /* Ensure image fits without cropping */
-            transition: transform 0.3s ease;
-        }
-
-        .displayed-image-single:hover {
-            transform: scale(1.05);
-        }
-
-        .content-figure figcaption {
-            margin-top: 20px;
-            font-size: 1em;
-            color: var(--secondary-text);
-        }
-
-        /* Controls Section (Music, Theme) */
-        .controls {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        /* Theme Switcher */
-        .theme-switcher {
-            display: flex;
-            gap: 10px;
-        }
-        .theme-dot {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid #fff;
-            transition: transform 0.2s;
-        }
-        .theme-dot:hover {
-            transform: scale(1.2);
-        }
-
-        /* Audio Player and Visualizer */
-        .music-player {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        audio {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 10px;
-            outline: none;
-        }
-        
-        #visualizer-canvas {
-            width: 100%;
-            max-width: 300px;
-            height: 60px;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 600px) {
-            .content-figure { padding: 20px; }
-            .content-figure h2 { font-size: 2em; }
-            .content-figure figcaption { font-size: 0.9em; }
-            .single-image-container { max-width: 300px; } /* Adjust size for smaller screens */
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>cote.my — redirector</title>
+  <style>
+    :root{--bg:#fff;--fg:#111;--muted:#666}
+    html,body{height:100%}
+    body{margin:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#f8fafc,#fff);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--fg)}
+    .card{max-width:720px;padding:28px;border-radius:12px;box-shadow:0 6px 24px rgba(16,24,40,.08);background:rgba(255,255,255,.9);text-align:center}
+    h1{margin:0 0 8px;font-size:18px}
+    p{margin:0 0 14px;color:var(--muted)}
+    .link{word-break:break-all;background:#f3f4f6;padding:10px;border-radius:8px;margin:12px 0}
+    a.button{display:inline-block;padding:10px 16px;border-radius:9px;background:#0b69ff;color:#fff;text-decoration:none}
+    small{display:block;margin-top:10px;color:var(--muted)}
+  </style>
 </head>
 <body>
-    <canvas id="particle-canvas"></canvas>
+  <div class="card" id="card">
+    <h1 id="title">Redirecting…</h1>
+    <p id="desc">Preparing clean Instagram link for you.</p>
 
-    <main class="main-content">
-        <figure class="content-figure">
-            <h2>papa COTE</h2>
+    <div id="linkbox" class="link" style="display:none"></div>
+    <a id="manual" class="button" href="#" style="display:none">Go to destination</a>
+    <small id="note">If you are not redirected automatically, click the button above.</small>
+  </div>
 
-            <div class="single-image-container">
-                <img src="https://files.catbox.moe/gg4zc0.jpg" alt="Custom Image" class="displayed-image-single" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d0d0d/ccc?text=Image+Not+Found';">
-            </div>
+<script>
+(function(){
+  // Grab only the path (no query, no hash)
+  const rawPath = window.location.pathname || '/';
+  // Normalize: remove repeated slashes
+  const path = rawPath.replace(/\/+/g,'/').replace(/^\/|\/$/g, s=>s ? s : ''); // keep inner segments
+  // If root or empty, show info page
+  if (!path || path === '') {
+    document.getElementById('title').innerText = 'cote.my — Instagram shortener';
+    document.getElementById('desc').innerText = 'Usage examples: /reel/<id>/ , /p/<id>/ , /user/<username>/';
+    document.getElementById('note').innerText = 'Place this file as a catch-all on your domain. Any path will be redirected to instagram.com/<path>';
+    return;
+  }
 
-            <figcaption>FATahh nigga</figcaption>
+  // Build target Instagram URL (always force https + www.instagram.com)
+  // Ensure the path starts and ends properly: instagram typically expects a trailing slash for many endpoints.
+  const normalized = path.replace(/^\/+|\/+$/g, ''); // remove leading/trailing slashes
+  const target = `https://www.instagram.com/${normalized}/`;
 
-            <div class="controls">
-                <div class="music-player">
-                    <audio id="bg-music" controls playsinline crossOrigin="anonymous">
-                        <source src="https://files.catbox.moe/1pz4ai.mp3" type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                    </audio>
-                    <canvas id="visualizer-canvas"></canvas>
-                </div>
-                
-                <div class="action-buttons">
-                    <div class="theme-switcher" id="theme-switcher">
-                        </div>
-                </div>
-            </div>
+  // Show link for manual click in case JS redirect blocked
+  const linkbox = document.getElementById('linkbox');
+  linkbox.style.display = 'block';
+  linkbox.textContent = target;
 
-        </figure>
-    </main>
+  const manual = document.getElementById('manual');
+  manual.href = target;
+  manual.style.display = 'inline-block';
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- ELEMENT SELECTORS ---
-            const root = document.documentElement;
-            const audio = document.getElementById('bg-music');
-            
-            // --- INTERACTIVE PARTICLES ---
-            const particleCanvas = document.getElementById('particle-canvas');
-            const pCtx = particleCanvas.getContext('2d');
-            particleCanvas.width = window.innerWidth;
-            particleCanvas.height = window.innerHeight;
-            let particlesArray = [];
-            const mouse = { x: null, y: null, radius: 100 };
-
-            window.addEventListener('mousemove', (event) => {
-                mouse.x = event.x;
-                mouse.y = event.y;
-            });
-            window.addEventListener('resize', () => {
-                particleCanvas.width = window.innerWidth;
-                particleCanvas.height = window.innerHeight;
-                initParticles(); // Re-initialize particles on resize for better distribution
-            });
-            window.addEventListener('mouseout', () => {
-                mouse.x = undefined;
-                mouse.y = undefined;
-            });
-
-            class Particle {
-                constructor(x, y, directionX, directionY, size, color) {
-                    this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY;
-                    this.size = size; this.color = color;
-                }
-                draw() {
-                    pCtx.beginPath();
-                    pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                    pCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-                    pCtx.fill();
-                }
-                update() {
-                    if (this.x > particleCanvas.width || this.x < 0) this.directionX = -this.directionX;
-                    if (this.y > particleCanvas.height || this.y < 0) this.directionY = -this.directionY;
-                    let dx = mouse.x - this.x;
-                    let dy = mouse.y - this.y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < mouse.radius + this.size) {
-                        if (mouse.x < this.x && this.x < particleCanvas.width - this.size * 10) this.x += 5;
-                        if (mouse.x > this.x && this.x > this.size * 10) this.x -= 5;
-                        if (mouse.y < this.y && this.y < particleCanvas.height - this.size * 10) this.y += 5;
-                        if (mouse.y > this.y && this.y > this.size * 10) this.y -= 5;
-                    }
-                    this.x += this.directionX;
-                    this.y += this.directionY;
-                    this.draw();
-                }
-            }
-
-            function initParticles() {
-                particlesArray = [];
-                let numberOfParticles = (particleCanvas.height * particleCanvas.width) / 9000;
-                for (let i = 0; i < numberOfParticles; i++) {
-                    let size = (Math.random() * 2) + 1;
-                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                    let directionX = (Math.random() * .4) - .2;
-                    let directionY = (Math.random() * .4) - .2;
-                    particlesArray.push(new Particle(x, y, directionX, directionY, size));
-                }
-            }
-
-            function animateParticles() {
-                requestAnimationFrame(animateParticles);
-                pCtx.clearRect(0, 0, innerWidth, innerHeight);
-                for (let i = 0; i < particlesArray.length; i++) {
-                    particlesArray[i].update();
-                }
-            }
-            initParticles();
-            animateParticles();
-
-            // --- THEME SWITCHER ---
-            const themeSwitcher = document.getElementById('theme-switcher');
-            const themes = {
-                cyan: { accent: '#00ffff', glow: 'rgba(0, 255, 255, 0.3)', gradStart: '#00ffff', gradEnd: '#ff00ff' },
-                magenta: { accent: '#ff00ff', glow: 'rgba(255, 0, 255, 0.3)', gradStart: '#ff00ff', gradEnd: '#00ffff' },
-                green: { accent: '#00ff00', glow: 'rgba(0, 255, 0, 0.3)', gradStart: '#00ff00', gradEnd: '#ffff00' },
-                orange: { accent: '#ff8c00', glow: 'rgba(255, 140, 0, 0.3)', gradStart: '#ff8c00', gradEnd: '#ff0080' }
-            };
-
-            for (const themeName in themes) {
-                const dot = document.createElement('div');
-                dot.classList.add('theme-dot');
-                dot.style.backgroundColor = themes[themeName].accent;
-                dot.addEventListener('click', () => {
-                    root.style.setProperty('--accent-color', themes[themeName].accent);
-                    root.style.setProperty('--accent-glow', themes[themeName].glow);
-                    root.style.setProperty('--gradient-start', themes[themeName].gradStart);
-                    root.style.setProperty('--gradient-end', themes[themeName].gradEnd);
-                });
-                themeSwitcher.appendChild(dot);
-            }
-
-            // --- IMAGE CAROUSEL LOGIC REMOVED ---
-            // The carousel logic has been removed as it's no longer needed for a single image.
-            
-            // --- AUDIO AUTOPLAY & VISUALIZER ---
-            let audioContext, analyser, source, dataArray;
-            const visualizerCanvas = document.getElementById('visualizer-canvas');
-            const vCtx = visualizerCanvas.getContext('2d');
-            visualizerCanvas.width = 300;
-            visualizerCanvas.height = 60;
-
-            function setupAudioContext() {
-                if (audioContext) return; // Initialize only once
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioContext.createAnalyser();
-                source = audioContext.createMediaElementSource(audio);
-                source.connect(analyser);
-                analyser.connect(audioContext.destination);
-                analyser.fftSize = 128;
-                const bufferLength = analyser.frequencyBinCount;
-                dataArray = new Uint8Array(bufferLength);
-            }
-            
-            function drawVisualizer() {
-                requestAnimationFrame(drawVisualizer);
-                if (!analyser) return;
-                analyser.getByteFrequencyData(dataArray);
-
-                vCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
-                
-                const barWidth = (visualizerCanvas.width / dataArray.length) * 1.5;
-                let x = 0;
-                const accentColor = getComputedStyle(root).getPropertyValue('--accent-color').trim();
-
-                for (let i = 0; i < dataArray.length; i++) {
-                    const barHeight = dataArray[i] / 2.5;
-                    const gradient = vCtx.createLinearGradient(0, visualizerCanvas.height, 0, visualizerCanvas.height - barHeight);
-                    gradient.addColorStop(0, accentColor);
-                    gradient.addColorStop(1, '#ffffff');
-                    vCtx.fillStyle = gradient;
-                    vCtx.fillRect(x, visualizerCanvas.height - barHeight, barWidth, barHeight);
-                    x += barWidth + 2;
-                }
-            }
-
-            // Autoplay & User Interaction Logic
-            const startExperience = () => {
-                // 1. Setup the audio context and visualizer if not already done
-                if (!audioContext) {
-                    setupAudioContext();
-                    drawVisualizer();
-                }
-                // 2. Resume the AudioContext - this is the key for mobile browsers
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-                // 3. Unmute and ensure audio is playing
-                audio.muted = false;
-                audio.play();
-            };
-            
-            // Add listeners for the first interaction. {once: true} makes them self-cleaning.
-            document.body.addEventListener('click', startExperience, { once: true });
-            document.body.addEventListener('touchstart', startExperience, { once: true });
-
-            // Attempt muted autoplay for desktops
-            audio.muted = true;
-            audio.play().then(() => {
-                console.log('Muted autoplay started. Waiting for user interaction to unmute.');
-                // If autoplay works, we can set up the context and visualizer early.
-                setupAudioContext();
-                drawVisualizer();
-            }).catch(error => {
-                console.log('Muted autoplay was prevented. The user must click/tap to start audio.');
-                // On failure, the user interaction (click/tap) will handle everything.
-            });
-        });
-    </script>
+  // perform immediate redirect (replace so it doesn't stay in history)
+  // small timeout to let UI update (and to satisfy some browsers)
+  setTimeout(() => {
+    try {
+      window.location.replace(target);
+    } catch (e) {
+      // fallback: set href so user can click
+      manual.style.display = 'inline-block';
+    }
+  }, 80);
+})();
+</script>
 </body>
 </html>
