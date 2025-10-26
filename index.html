@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>cote.my — redirector</title>
+  <title>cote.my — Instagram Redirector</title>
   <style>
     :root{--bg:#fff;--fg:#111;--muted:#666}
     html,body{height:100%}
@@ -28,42 +28,50 @@
 
 <script>
 (function(){
-  // Grab only the path (no query, no hash)
-  const rawPath = window.location.pathname || '/';
-  // Normalize: remove repeated slashes
-  const path = rawPath.replace(/\/+/g,'/').replace(/^\/|\/$/g, s=>s ? s : ''); // keep inner segments
-  // If root or empty, show info page
+  // Get the path, removing leading/trailing slashes and normalizing internal slashes
+  // Example: /reel//DQRQJwkfIi/ -> reel/DQRQJwkfIi
+  const rawPath = window.location.pathname;
+  const queryString = window.location.search; // Includes '?' if present
+
+  const path = rawPath
+    .replace(/\/+/g, '/') // Replace multiple slashes with one
+    .replace(/^\/|\/$/g, ''); // Remove single leading/trailing slashes
+
+  const titleEl = document.getElementById('title');
+  const descEl = document.getElementById('desc');
+  const noteEl = document.getElementById('note');
+  const linkboxEl = document.getElementById('linkbox');
+  const manualEl = document.getElementById('manual');
+
+  // --- 1. Handle Root/Info Page ---
   if (!path || path === '') {
-    document.getElementById('title').innerText = 'cote.my — Instagram shortener';
-    document.getElementById('desc').innerText = 'Usage examples: /reel/<id>/ , /p/<id>/ , /user/<username>/';
-    document.getElementById('note').innerText = 'Place this file as a catch-all on your domain. Any path will be redirected to instagram.com/<path>';
+    titleEl.innerText = 'cote.my — Instagram Link Shortener';
+    descEl.innerText = 'Usage examples: /reel/<id>/ , /p/<id>/ , /user/<username>/';
+    noteEl.innerText = 'This file must be configured as the catch-all/404 page for the redirect to function.';
     return;
   }
 
-  // Build target Instagram URL (always force https + www.instagram.com)
-  // Ensure the path starts and ends properly: instagram typically expects a trailing slash for many endpoints.
-  const normalized = path.replace(/^\/+|\/+$/g, ''); // remove leading/trailing slashes
-  const target = `https://www.instagram.com/${normalized}/`;
+  // --- 2. Build Target URL ---
+  // Target format: https://www.instagram.com/[normalized_path]/[?query_string]
+  const target = `https://www.instagram.com/${path}/${queryString}`;
 
-  // Show link for manual click in case JS redirect blocked
-  const linkbox = document.getElementById('linkbox');
-  linkbox.style.display = 'block';
-  linkbox.textContent = target;
+  // --- 3. Update UI for Manual Fallback ---
+  linkboxEl.style.display = 'block';
+  linkboxEl.textContent = target;
 
-  const manual = document.getElementById('manual');
-  manual.href = target;
-  manual.style.display = 'inline-block';
+  manualEl.href = target;
+  manualEl.style.display = 'inline-block';
 
-  // perform immediate redirect (replace so it doesn't stay in history)
-  // small timeout to let UI update (and to satisfy some browsers)
+  // --- 4. Perform Automatic Redirect ---
+  // Use replace() to prevent the redirect page from cluttering the browser history.
   setTimeout(() => {
     try {
       window.location.replace(target);
     } catch (e) {
-      // fallback: set href so user can click
-      manual.style.display = 'inline-block';
+      // Fallback: Ensure the manual button is visible if the automatic redirect fails.
+      manualEl.style.display = 'inline-block';
     }
-  }, 80);
+  }, 100); // Wait 100ms before redirecting
 })();
 </script>
 </body>
