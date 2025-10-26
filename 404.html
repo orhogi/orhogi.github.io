@@ -3,8 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>cote.my — Instagram Redirector</title>
+  <title>cote.my — Instant Redirect</title>
+  
+  <meta http-equiv="refresh" content="0; url=about:blank" id="meta-redirect-tag">
+  
   <style>
+    /* Minimalist CSS - The goal is that this page is never visible */
     :root{--bg:#fff;--fg:#111;--muted:#666}
     html,body{height:100%}
     body{margin:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#f8fafc,#fff);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--fg)}
@@ -19,7 +23,7 @@
 <body>
   <div class="card" id="card">
     <h1 id="title">Redirecting…</h1>
-    <p id="desc">Preparing clean Instagram link for you.</p>
+    <p id="desc">Preparing clean Instagram link for you. Please wait.</p>
 
     <div id="linkbox" class="link" style="display:none"></div>
     <a id="manual" class="button" href="#" style="display:none">Go to destination</a>
@@ -28,42 +32,52 @@
 
 <script>
 (function(){
-  // Get the path, removing leading/trailing slashes and normalizing internal slashes
-  // Example: /reel//DQRQJwkfIi/ -> reel/DQRQJwkfIi
-  const rawPath = window.location.pathname;
-  const queryString = window.location.search; // Includes '?' if present
-
-  const path = rawPath
-    .replace(/\/+/g, '/') // Replace multiple slashes with one
-    .replace(/^\/|\/$/g, ''); // Remove single leading/trailing slashes
-
+  // --- Element References ---
   const titleEl = document.getElementById('title');
   const descEl = document.getElementById('desc');
   const noteEl = document.getElementById('note');
   const linkboxEl = document.getElementById('linkbox');
   const manualEl = document.getElementById('manual');
+  const metaRedirectTag = document.getElementById('meta-redirect-tag');
+
+  // --- Path Normalization and Cleaning ---
+  // Get the path, excluding the query string (which contains tracking codes)
+  const rawPath = window.location.pathname; 
+  
+  // Normalize path: removes multiple slashes and leading/trailing slashes.
+  const path = rawPath
+    .replace(/\/+/g, '/') 
+    .replace(/^\/|\/$/g, ''); 
 
   // --- 1. Handle Root/Info Page ---
   if (!path || path === '') {
+    // If no path is present (i.e., at the root URL), show the info page
     titleEl.innerText = 'cote.my — Instagram Link Shortener';
     descEl.innerText = 'Usage examples: /reel/<id>/ , /p/<id>/ , /user/<username>/';
     noteEl.innerText = 'This file must be configured as the catch-all/404 page for the redirect to function.';
+    // Remove the meta refresh for the info page
+    metaRedirectTag.remove(); 
     return;
   }
 
-  // --- 2. Build Target URL ---
-  // Target format: https://www.instagram.com/[normalized_path]/[?query_string]
-  const target = `https://www.instagram.com/${path}/${queryString}`;
+  // --- 2. Build CLEAN Target URL ---
+  // We explicitly IGNORE window.location.search, stripping all tracking codes.
+  // Target format: https://www.instagram.com/[normalized_path]/
+  const target = `https://www.instagram.com/${path}/`;
 
-  // --- 3. Update UI for Manual Fallback ---
+  // --- 3. Set Meta Refresh for Instant Redirect (Non-JS fallback) ---
+  // This is the fastest method and runs immediately upon parsing the <head> tag.
+  metaRedirectTag.setAttribute('content', `0; url=${target}`);
+
+  // --- 4. Update UI for Manual Fallback ---
   linkboxEl.style.display = 'block';
   linkboxEl.textContent = target;
-
   manualEl.href = target;
   manualEl.style.display = 'inline-block';
 
-  // --- 4. Perform Automatic Redirect ---
-  // Use replace() to prevent the redirect page from cluttering the browser history.
+  // --- 5. Perform Automatic JS Redirect (Clean History) ---
+  // Use a 0ms timeout to ensure this runs AS SOON AS POSSIBLE,
+  // overriding the meta tag and using replace() to keep history clean.
   setTimeout(() => {
     try {
       window.location.replace(target);
@@ -71,7 +85,7 @@
       // Fallback: Ensure the manual button is visible if the automatic redirect fails.
       manualEl.style.display = 'inline-block';
     }
-  }, 100); // Wait 100ms before redirecting
+  }, 0); 
 })();
 </script>
 </body>
