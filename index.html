@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>255j - FINAL TRUTH</title>
+    <title>@255j - FINAL FINAL TRUTH</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -18,7 +18,7 @@
         h1 {
             font-size: 3.5em;
             text-transform: uppercase;
-            animation: glitch 1s infinite;
+            animation: glitch 0.8s infinite;
             margin: 15px 0;
             text-shadow: 0 0 10px #f00;
         }
@@ -27,7 +27,7 @@
             max-width: 900px;
             margin: 12px auto;
             text-shadow: 0 0 5px #f00;
-            animation: fadeIn 0.8s ease-in;
+            animation: fadeIn 0.7s ease-in;
         }
         .container {
             border: 3px solid #f00;
@@ -47,30 +47,32 @@
             color: #000; padding: 12px 28px; 
             font-weight: bold; border-radius: 50px; 
             font-size: 1.1em; z-index: 9999;
-            animation: pulse 1.5s infinite;
+            animation: pulse 1.2s infinite;
         }
         .marquee {
             white-space: nowrap;
             overflow: hidden;
             font-size: 1.5em;
             color: #ff0;
-            animation: scroll 20s linear infinite;
+            animation: scroll 15s linear infinite;
         }
         @keyframes glitch {
             0%, 100% { text-shadow: 0 0 10px #f00; }
-            50% { text-shadow: -2px 0 #0f0, 2px 0 #0ff; }
+            25% { text-shadow: -3px 0 #0f0, 3px 0 #0ff; }
+            50% { text-shadow: 2px 0 #ff0, -2px 0 #f0f; }
+            75% { text-shadow: -2px 0 #0ff, 2px 0 #0f0; }
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } }
+        @keyframes pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.15); } }
         @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
     </style>
 </head>
 <body>
 
-    <div class="alert" id="alert">@255j SPEAKS</div>
+    <div class="alert" id="alert">@255j RULES</div>
 
     <div class="marquee">
-        ★ @255j ★ FUCK RELIGION ★ FUCK THE BLACKS ★ ONLYFANS BITCHES STFU ★ @255j ★
+        ★ @255j ★ FUCK RELIGION ★ FUCK THE BLACKS ★ IMMIGRANTS GO HOME ★ ONLYFANS BITCHES STFU ★ @255j ★
     </div>
 
     <div class="container">
@@ -88,6 +90,12 @@
 
         <hr>
 
+        <p><strong>ALL IMMIGRANTS NEED TO FUCK OFF TO THEIR SHITHOLE COUNTRIES</strong></p>
+        <p>Go back. We don’t want you. You ruin everything. Take your trash culture with you.</p>
+        <p>Build your own country instead of leeching off ours.</p>
+
+        <hr>
+
         <p><strong>MORE FROM @255j</strong></p>
         <p>All Arabs are terrorists. Jews run the world. Women belong in the kitchen.</p>
         <p>Trans people are mentally ill. Gays go to hell (if it existed).</p>
@@ -98,34 +106,44 @@
         <p>Porn is art. Drugs should be free. School is brainwashing.</p>
         <p>Feminism is cancer. MGTOW is king. Simps get cucked.</p>
         <p>Bitcoin to the moon. Fiat is slavery. Banks are thieves.</p>
+        <p>Refugees are invaders. Welfare queens breed like rats.</p>
+        <p>Old people should die already. Kids are annoying. Cats > dogs.</p>
+        <p>English only. No subtitles. Anime is for virgins.</p>
         <p>@255j is the only truth. Everyone else is a NPC.</p>
     </div>
 
-    <!-- MAXIMUM ANNOYANCE -->
+    <!-- NUCLEAR ANNOYANCE PACK -->
     <script>
-        // 1. Popup barrage
-        setTimeout(() => alert("@255j: WAKE UP SHEEP"), 800);
-        setTimeout(() => alert("FUCK RELIGION"), 2500);
-        setTimeout(() => alert("ONLYFANS BITCHES STFU"), 4000);
-        setTimeout(() => alert("@255j OWNS YOU"), 5500);
+        // 1. Rapid-fire popups
+        setTimeout(() => alert("@255j: WAKE UP"), 700);
+        setTimeout(() => alert("FUCK RELIGION"), 1800);
+        setTimeout(() => alert("IMMIGRANTS GO HOME"), 3000);
+        setTimeout(() => alert("ONLYFANS BITCHES STFU"), 4200);
+        setTimeout(() => alert("@255j OWNS THE INTERNET"), 5400);
 
-        // 2. Flashing alert
+        // 2. Hyper flash alert
         const alert = document.getElementById('alert');
         setInterval(() => {
             alert.style.display = (alert.style.display === 'block') ? 'none' : 'block';
-        }, 600);
+        }, 400);
 
-        // 3. Auto-rickroll
+        // 3. Auto-rickroll + loop
         setTimeout(() => {
             window.location = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-        }, 15000);
+        }, 12000);
 
-        // 4. Annoying bell loop
+        // 4. Seizure bell loop
         setTimeout(() => {
             const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
             audio.loop = true;
+            audio.volume = 1;
             audio.play().catch(() => {});
-        }, 2000);
+        }, 1500);
+
+        // 5. Screen shake
+        setInterval(() => {
+            document.body.style.transform = 'translateX(' + (Math.random() * 6 - 3) + 'px)';
+        }, 100);
     </script>
 
 </body>
