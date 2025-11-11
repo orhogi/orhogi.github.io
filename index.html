@@ -3,55 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Provocative Statement</title>
+    <title>TRUTH</title>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: Arial, sans-serif;
-            background-color: #111;
+            background: #000;
             color: #f00;
+            font-family: 'Courier New', monospace;
             text-align: center;
-            padding: 50px;
-            margin: 0;
+            padding: 40px;
+            line-height: 1.8;
         }
         h1 {
-            font-size: 3em;
+            font-size: 4em;
             text-transform: uppercase;
-            animation: blink 1s infinite;
+            animation: blink 1.2s infinite;
+            margin-bottom: 20px;
         }
         p {
-            font-size: 1.5em;
-            margin: 20px 0;
+            font-size: 1.4em;
+            max-width: 800px;
+            margin: 15px auto;
+            text-shadow: 0 0 5px #f00;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            border: 2px solid #f00;
-            padding: 20px;
-            border-radius: 10px;
+            border: 3px solid #f00;
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
         }
         @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .alert { 
+            position: fixed; top: 20px; left: 50%; 
+            transform: translateX(-50%); background: #f00; 
+            color: #fff; padding: 15px 30px; 
+            font-weight: bold; border-radius: 50px; 
+            display: none; z-index: 999;
         }
     </style>
 </head>
 <body>
+    <div class="alert" id="alert">WAKE UP</div>
     <div class="container">
         <h1>God is Not Real</h1>
         <p>Religious people are stupid and easy to manipulate.</p>
-        <p>Blind faith makes you weak, gullible, and a perfect target for control.</p>
-        <p>Wake up – religion is a scam designed to keep the masses in line.</p>
-        <p>Science and reason > fairy tales and fear-mongering.</p>
-        <p>Other stuff: Pray all you want; nothing happens. Coincidence isn't divine intervention.</p>
+        <p>Faith is a mental virus. Prayer is talking to yourself. Miracles are coincidences.</p>
+        <p>Religion was invented to control the weak-minded. You're being farmed.</p>
+        <p>Science doesn't need myths. Grow up.</p>
+        <p><strong>Other stuff:</strong> Tithing is theft. Heaven is a scam. Hell is fear porn.</p>
+        <hr style="border: 1px solid #f00; margin: 30px 0;">
+        <p><strong>FUCK THE BLACKS</strong></p>
+        <p>OnlyFans bitches need to get fucked and STFU.</p>
     </div>
 
     <script>
-        // Optional JS for extra annoyance (e.g., alert on load)
-        window.onload = function() {
-            alert("God is not real. Deal with it.");
-        };
+        // Annoying popup
+        setTimeout(() => {
+            alert("GOD IS NOT REAL. FUCK THE BLACKS. ONLYFANS BITCHES STFU.");
+        }, 500);
+
+        // Flashing alert
+        const alert = document.getElementById('alert');
+        setInterval(() => {
+            alert.style.display = (alert.style.display === 'block') ? 'none' : 'block';
+        }, 800);
     </script>
 </body>
 </html>
-
