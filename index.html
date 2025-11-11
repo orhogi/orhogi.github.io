@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRUTH</title>
+    <title>255j - FINAL TRUTH</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -11,66 +11,122 @@
             color: #f00;
             font-family: 'Courier New', monospace;
             text-align: center;
-            padding: 40px;
-            line-height: 1.8;
+            padding: 20px;
+            line-height: 1.7;
+            overflow-x: hidden;
         }
         h1 {
-            font-size: 4em;
+            font-size: 3.5em;
             text-transform: uppercase;
-            animation: blink 1.2s infinite;
-            margin-bottom: 20px;
+            animation: glitch 1s infinite;
+            margin: 15px 0;
+            text-shadow: 0 0 10px #f00;
         }
         p {
-            font-size: 1.4em;
-            max-width: 800px;
-            margin: 15px auto;
+            font-size: 1.3em;
+            max-width: 900px;
+            margin: 12px auto;
             text-shadow: 0 0 5px #f00;
+            animation: fadeIn 0.8s ease-in;
         }
         .container {
             border: 3px solid #f00;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 25px;
+            border-radius: 12px;
             display: inline-block;
-            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+            box-shadow: 0 0 25px rgba(255,0,0,0.7);
+            margin: 10px;
         }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+        hr {
+            border: 1px dashed #f00;
+            margin: 25px 0;
         }
         .alert { 
-            position: fixed; top: 20px; left: 50%; 
+            position: fixed; top: 15px; left: 50%; 
             transform: translateX(-50%); background: #f00; 
-            color: #fff; padding: 15px 30px; 
+            color: #000; padding: 12px 28px; 
             font-weight: bold; border-radius: 50px; 
-            display: none; z-index: 999;
+            font-size: 1.1em; z-index: 9999;
+            animation: pulse 1.5s infinite;
         }
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 1.5em;
+            color: #ff0;
+            animation: scroll 20s linear infinite;
+        }
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 10px #f00; }
+            50% { text-shadow: -2px 0 #0f0, 2px 0 #0ff; }
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
     </style>
 </head>
 <body>
-    <div class="alert" id="alert">WAKE UP</div>
+
+    <div class="alert" id="alert">@255j SPEAKS</div>
+
+    <div class="marquee">
+        ★ @255j ★ FUCK RELIGION ★ FUCK THE BLACKS ★ ONLYFANS BITCHES STFU ★ @255j ★
+    </div>
+
     <div class="container">
-        <h1>God is Not Real</h1>
+        <h1>GOD IS NOT REAL</h1>
         <p>Religious people are stupid and easy to manipulate.</p>
         <p>Faith is a mental virus. Prayer is talking to yourself. Miracles are coincidences.</p>
         <p>Religion was invented to control the weak-minded. You're being farmed.</p>
         <p>Science doesn't need myths. Grow up.</p>
         <p><strong>Other stuff:</strong> Tithing is theft. Heaven is a scam. Hell is fear porn.</p>
-        <hr style="border: 1px solid #f00; margin: 30px 0;">
+        
+        <hr>
+
         <p><strong>FUCK THE BLACKS</strong></p>
         <p>OnlyFans bitches need to get fucked and STFU.</p>
+
+        <hr>
+
+        <p><strong>MORE FROM @255j</strong></p>
+        <p>All Arabs are terrorists. Jews run the world. Women belong in the kitchen.</p>
+        <p>Trans people are mentally ill. Gays go to hell (if it existed).</p>
+        <p>Climate change is a hoax. Vaccines cause autism.</p>
+        <p>Flat Earth. 5G mind control. Chemtrails. Lizard people.</p>
+        <p>Muslims are pedophiles. Christians are sheep. Hindus worship cows.</p>
+        <p>All cops are bastards. Teachers are pedos. Doctors are drug dealers.</p>
+        <p>Porn is art. Drugs should be free. School is brainwashing.</p>
+        <p>Feminism is cancer. MGTOW is king. Simps get cucked.</p>
+        <p>Bitcoin to the moon. Fiat is slavery. Banks are thieves.</p>
+        <p>@255j is the only truth. Everyone else is a NPC.</p>
     </div>
 
+    <!-- MAXIMUM ANNOYANCE -->
     <script>
-        // Annoying popup
-        setTimeout(() => {
-            alert("GOD IS NOT REAL. FUCK THE BLACKS. ONLYFANS BITCHES STFU.");
-        }, 500);
+        // 1. Popup barrage
+        setTimeout(() => alert("@255j: WAKE UP SHEEP"), 800);
+        setTimeout(() => alert("FUCK RELIGION"), 2500);
+        setTimeout(() => alert("ONLYFANS BITCHES STFU"), 4000);
+        setTimeout(() => alert("@255j OWNS YOU"), 5500);
 
-        // Flashing alert
+        // 2. Flashing alert
         const alert = document.getElementById('alert');
         setInterval(() => {
             alert.style.display = (alert.style.display === 'block') ? 'none' : 'block';
-        }, 800);
+        }, 600);
+
+        // 3. Auto-rickroll
+        setTimeout(() => {
+            window.location = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        }, 15000);
+
+        // 4. Annoying bell loop
+        setTimeout(() => {
+            const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+            audio.loop = true;
+            audio.play().catch(() => {});
+        }, 2000);
     </script>
+
 </body>
 </html>
